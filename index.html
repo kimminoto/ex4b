@@ -12,7 +12,7 @@
     <div class="container-fluid">
 		<h1>Temperature conversion</h1>
 		<img src="images/temperature.gif" class="img-fluid" alt="runner logo" width="150" height="150"><br>
-		<hr>
+		<hr/>
 		<form role="form" method="GET">
 		  <div class="form-group">
 			<label for="tem">Current temperature:</label>
@@ -33,12 +33,8 @@
 	</div>
 	
 	<script>
-	    $(document).ready(function(){
-			$("button").click(function(){
-			   var t = $('#temp').val();//celsius
-			   var u = $('#unit').val();
-			   
-			   if(isNaN(t)){
+		function validate(t){
+			if(isNaN(t)){
 					msg = "Please verify whether the temperature value is correct!!!";
 					alert(msg);
 					return;
@@ -48,9 +44,11 @@
 					alert(msg);
 					return;
 			   }
-			   
-			   var t1;
-			   var u1;
+		}
+		
+		function conversion(u,t){
+				var t1;
+			    var u1;
 			   
 			   if(u == "F"){
 					t1 = t * (9/5) + 32;
@@ -62,10 +60,24 @@
 					t1 = t * (4/5);
 					u1 = "Kelvin";
 			   }
+			   return {u1,t1};
+		} 
+	
+
+
+	    $(document).ready(function(){
+			$("button").click(function(){
+			   var t = $('#temp').val();//celsius
+			   var u = $('#unit').val();
+
+			   var chk = validate(t);
+			   if (chk !=null) return chk;
+			   var cvs = conversion(u,t);
 			   
-			   alert("Temperature is "+t1+" in "+u1);
+			   document.getElementById("result").innerHTML = ("Temperature is "+t1+" in "+u1);
 			});
 		});
 	</script>
 </body>
 </html>
+
